@@ -12,9 +12,10 @@ export default function Navbar() {
         <Link href="/about">About</Link>
         <Link href="/projects">Projects</Link>
         <Link href="/blogs">Blogs</Link>
+        <Link href="/dashboard">Dashboard</Link>
         {isAuthenticated ? (
           <>
-            <Link href="/dashboard">Dashboard</Link>
+            {/* <Link href="/dashboard">Dashboard</Link> */} 
             <button onClick={logout} className="text-red-400 hover:text-red-300">Logout</button>
           </>
         ) : (
