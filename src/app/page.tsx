@@ -1,12 +1,13 @@
+import Navbar from "@/components/Navbar";
 
-
-const HomePage = () => {
+export default function Home() {
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      <p>This is the main landing page of the application.</p>
-    </div>
+    <>
+      <Navbar />
+      <main className="p-8 text-center">
+        <h1 className="text-4xl font-bold mb-4">Welcome to My Portfolio</h1>
+        <p className="text-gray-700">Showcasing my work, blogs, and projects 🚀</p>
+      </main>
+    </>
   );
-};
-
-export default HomePage;
+}
