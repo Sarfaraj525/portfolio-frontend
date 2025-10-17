@@ -16,32 +16,32 @@ const NewBlogPage = () => {
     isFeatured: boolean;
   }) => {
     console.log("New blog created:", data);
-
-    // You can send this to backend here via Axios
-    // axios.post("/api/blogs", data)
-
     toast.success("Blog created successfully!");
-    router.push("/dashboard/blog"); // redirect back to blog list
+    router.push("/dashboard/blog");
   };
 
   return (
-    <div className="p-6 w-full">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8 lg:p-10">
       <Toaster position="top-right" />
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Create New Blog</h1>
+      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md p-5 sm:p-8 lg:p-10">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-6 text-center sm:text-left">
+          Create New Blog
+        </h1>
 
-      <div className="max-w-2xl mx-auto">
-        <BlogForm
-          onSubmit={handleCreateBlog}
-          buttonText="Create Blog"
-          initialData={{
-            title: "",
-            content: "",
-            thumbnail: "",
-            tags: [],
-            category: "",
-            isFeatured: false,
-          }}
-        />
+        <div className="w-full">
+          <BlogForm
+            onSubmit={handleCreateBlog}
+            buttonText="Create Blog"
+            initialData={{
+              title: "",
+              content: "",
+              thumbnail: "",
+              tags: [],
+              category: "",
+              isFeatured: false,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

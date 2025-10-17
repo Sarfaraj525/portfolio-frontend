@@ -43,7 +43,7 @@ const BlogManagementPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
 
-  // Create new blog
+  // ✅ Create new blog
   const handleCreateBlog = (data: BlogFormData) => {
     const newBlog: Blog = {
       id: Date.now().toString(),
@@ -54,7 +54,7 @@ const BlogManagementPage = () => {
     setShowForm(false);
   };
 
-  // Update existing blog
+  // ✅ Update existing blog
   const handleUpdateBlog = (data: BlogFormData) => {
     if (!editingBlog) return;
 
@@ -68,72 +68,85 @@ const BlogManagementPage = () => {
     setShowForm(false);
   };
 
-  // Delete blog
+  // ✅ Delete blog
   const handleDelete = (id: string) => {
     setBlogs((prev) => prev.filter((blog) => blog.id !== id));
     toast.success("Blog deleted successfully!");
   };
 
-  // Open form in edit mode
+  // ✅ Edit click handler
   const handleEditClick = (blog: Blog) => {
     setEditingBlog(blog);
     setShowForm(true);
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 sm:p-6 md:p-8">
       <Toaster position="top-right" />
 
       {!showForm ? (
         <>
-          {/* Blog List Header */}
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">Blog Management</h1>
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+              Blog Management
+            </h1>
             <button
               onClick={() => {
                 setEditingBlog(null);
                 setShowForm(true);
               }}
-              className="flex items-center bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+              className="flex items-center justify-center bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
             >
               <FaPlus className="mr-2" /> New Blog
             </button>
           </div>
 
-          {/* Blog Table */}
-          <div className="bg-white shadow-md rounded-lg overflow-hidden">
+          {/* Table / List */}
+          <div className="bg-white shadow-md rounded-lg overflow-x-auto">
             {blogs.length > 0 ? (
-              <table className="min-w-full text-left border-collapse">
+              <table className="min-w-full text-left border-collapse text-sm md:text-base">
                 <thead className="bg-gray-100">
                   <tr>
                     <th className="py-3 px-4 text-gray-700">Title</th>
-                    <th className="py-3 px-4 text-gray-700">Category</th>
-                    <th className="py-3 px-4 text-gray-700">Tags</th>
-                    <th className="py-3 px-4 text-gray-700">Featured</th>
+                    <th className="py-3 px-4 text-gray-700 hidden sm:table-cell">
+                      Category
+                    </th>
+                    <th className="py-3 px-4 text-gray-700 hidden md:table-cell">
+                      Tags
+                    </th>
+                    <th className="py-3 px-4 text-gray-700 hidden md:table-cell">
+                      Featured
+                    </th>
                     <th className="py-3 px-4 text-gray-700">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {blogs.map((blog) => (
-                    <tr key={blog.id} className="border-t">
-                      <td className="py-3 px-4">{blog.title}</td>
-                      <td className="py-3 px-4">{blog.category}</td>
-                      <td className="py-3 px-4">
+                    <tr
+                      key={blog.id}
+                      className="border-t hover:bg-gray-50 transition"
+                    >
+                      <td className="py-3 px-4 font-medium">{blog.title}</td>
+                      <td className="py-3 px-4 hidden sm:table-cell">
+                        {blog.category}
+                      </td>
+                      <td className="py-3 px-4 hidden md:table-cell">
                         {blog.tags.join(", ")}
                       </td>
-                      <td className="py-3 px-4">
+                      <td className="py-3 px-4 hidden md:table-cell">
                         {blog.isFeatured ? "Yes" : "No"}
                       </td>
-                      <td className="py-3 px-4 flex items-center gap-3">
+                      <td className="py-3 px-4 flex items-center gap-3 text-lg">
                         <button
                           onClick={() => handleEditClick(blog)}
-                          className="text-blue-600 hover:text-blue-800"
+                          className="text-blue-600 hover:text-blue-800 transition"
                         >
                           <FaEdit />
                         </button>
                         <button
                           onClick={() => handleDelete(blog.id)}
-                          className="text-red-600 hover:text-red-800"
+                          className="text-red-600 hover:text-red-800 transition"
                         >
                           <FaTrash />
                         </button>
@@ -143,22 +156,20 @@ const BlogManagementPage = () => {
                 </tbody>
               </table>
             ) : (
-              <p className="text-gray-500 text-center py-6">
-                No blogs found.
-              </p>
+              <p className="text-gray-500 text-center py-6">No blogs found.</p>
             )}
           </div>
         </>
       ) : (
         <>
-          {/* Blog Form */}
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">
+          {/* Blog Form View */}
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
               {editingBlog ? "Edit Blog" : "Create New Blog"}
             </h1>
             <button
               onClick={() => setShowForm(false)}
-              className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700"
+              className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition"
             >
               Back
             </button>
