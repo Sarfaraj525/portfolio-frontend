@@ -5,24 +5,47 @@ import { toast, Toaster } from "react-hot-toast";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import BlogForm from "@/components/BlogForm";
 
-interface Blog {
-  id: string;
+type BlogFormData = {
   title: string;
-  description: string;
+  content: string;
+  thumbnail?: string;
+  tags: string[];
+  category: string;
+  isFeatured: boolean;
+};
+
+interface Blog extends BlogFormData {
+  id: string;
 }
 
 const BlogManagementPage = () => {
   const [blogs, setBlogs] = useState<Blog[]>([
-    { id: "1", title: "My First Blog", description: "This is a sample blog post." },
-    { id: "2", title: "Next.js + TypeScript Setup", description: "Learn how to build scalable apps." },
+    {
+      id: "1",
+      title: "My First Blog",
+      content: "This is a sample blog post with content...",
+      thumbnail: "",
+      tags: ["sample"],
+      category: "tech",
+      isFeatured: false,
+    },
+    {
+      id: "2",
+      title: "Next.js + TypeScript Setup",
+      content: "Learn how to build scalable apps with Next.js and TypeScript...",
+      thumbnail: "",
+      tags: ["nextjs", "typescript"],
+      category: "education",
+      isFeatured: true,
+    },
   ]);
 
   const [showForm, setShowForm] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
 
   // Create new blog
-  const handleCreateBlog = (data: { title: string; description: string }) => {
-    const newBlog = {
+  const handleCreateBlog = (data: BlogFormData) => {
+    const newBlog: Blog = {
       id: Date.now().toString(),
       ...data,
     };
@@ -32,7 +55,7 @@ const BlogManagementPage = () => {
   };
 
   // Update existing blog
-  const handleUpdateBlog = (data: { title: string; description: string }) => {
+  const handleUpdateBlog = (data: BlogFormData) => {
     if (!editingBlog) return;
 
     setBlogs((prev) =>
@@ -58,7 +81,7 @@ const BlogManagementPage = () => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <Toaster position="top-right" />
 
       {!showForm ? (
@@ -84,7 +107,9 @@ const BlogManagementPage = () => {
                 <thead className="bg-gray-100">
                   <tr>
                     <th className="py-3 px-4 text-gray-700">Title</th>
-                    <th className="py-3 px-4 text-gray-700">Description</th>
+                    <th className="py-3 px-4 text-gray-700">Category</th>
+                    <th className="py-3 px-4 text-gray-700">Tags</th>
+                    <th className="py-3 px-4 text-gray-700">Featured</th>
                     <th className="py-3 px-4 text-gray-700">Actions</th>
                   </tr>
                 </thead>
@@ -92,8 +117,14 @@ const BlogManagementPage = () => {
                   {blogs.map((blog) => (
                     <tr key={blog.id} className="border-t">
                       <td className="py-3 px-4">{blog.title}</td>
-                      <td className="py-3 px-4 text-gray-600">{blog.description}</td>
-                      <td className="py-3 px-4 flex items-center space-x-3">
+                      <td className="py-3 px-4">{blog.category}</td>
+                      <td className="py-3 px-4">
+                        {blog.tags.join(", ")}
+                      </td>
+                      <td className="py-3 px-4">
+                        {blog.isFeatured ? "Yes" : "No"}
+                      </td>
+                      <td className="py-3 px-4 flex items-center gap-3">
                         <button
                           onClick={() => handleEditClick(blog)}
                           className="text-blue-600 hover:text-blue-800"
@@ -112,7 +143,9 @@ const BlogManagementPage = () => {
                 </tbody>
               </table>
             ) : (
-              <p className="text-gray-500 text-center py-6">No blogs found.</p>
+              <p className="text-gray-500 text-center py-6">
+                No blogs found.
+              </p>
             )}
           </div>
         </>
@@ -131,7 +164,7 @@ const BlogManagementPage = () => {
             </button>
           </div>
 
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <BlogForm
               initialData={editingBlog ?? undefined}
               onSubmit={editingBlog ? handleUpdateBlog : handleCreateBlog}

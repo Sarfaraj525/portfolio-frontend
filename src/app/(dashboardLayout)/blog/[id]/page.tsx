@@ -6,9 +6,13 @@ import axios from "axios";
 import BlogForm from "@/components/BlogForm";
 import { toast, Toaster } from "react-hot-toast";
 
-interface Blog {
+interface BlogFormData {
   title: string;
-  description: string;
+  content: string;
+  thumbnail?: string;
+  tags: string[];
+  category: string;
+  isFeatured: boolean;
 }
 
 const EditBlogPage = () => {
@@ -16,18 +20,26 @@ const EditBlogPage = () => {
   const params = useParams();
   const blogId = params?.id as string;
 
-  const [blog, setBlog] = useState<Blog | null>(null);
+  const [blog, setBlog] = useState<BlogFormData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch single blog from backend
+  // Fetch blog from backend
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const { data } = await axios.get<{ data: Blog }>(
+        const { data } = await axios.get<{ data: BlogFormData }>(
           `https://portfolio-backend-production.up.railway.app/api/blogs/${blogId}`
         );
-        setBlog(data.data); // Adjust based on your API response structure
-      } catch (error: unknown) {
+        // Ensure all required fields exist
+        setBlog({
+          title: data.data.title,
+          content: data.data.content || "",
+          thumbnail: data.data.thumbnail || "",
+          tags: data.data.tags || [],
+          category: data.data.category || "",
+          isFeatured: data.data.isFeatured || false,
+        });
+      } catch (error) {
         console.error("Error fetching blog:", error);
         toast.error("Failed to load blog details.");
       } finally {
@@ -38,8 +50,8 @@ const EditBlogPage = () => {
     if (blogId) fetchBlog();
   }, [blogId]);
 
-  // ✅ Handle blog update
-  const handleUpdate = async (data: Blog) => {
+  // Handle blog update
+  const handleUpdate = async (data: BlogFormData) => {
     try {
       await axios.put(
         `https://portfolio-backend-production.up.railway.app/api/blogs/${blogId}`,
@@ -47,7 +59,7 @@ const EditBlogPage = () => {
       );
       toast.success("Blog updated successfully!");
       router.push("/dashboard/blog");
-    } catch (error: unknown) {
+    } catch (error) {
       console.error("Update failed:", error);
       toast.error("Failed to update blog.");
     }

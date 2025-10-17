@@ -7,8 +7,19 @@ import { toast, Toaster } from "react-hot-toast";
 const NewBlogPage = () => {
   const router = useRouter();
 
-  const handleCreateBlog = (data: { title: string; description: string }) => {
+  const handleCreateBlog = (data: {
+    title: string;
+    content: string;
+    thumbnail?: string;
+    tags: string[];
+    category: string;
+    isFeatured: boolean;
+  }) => {
     console.log("New blog created:", data);
+
+    // You can send this to backend here via Axios
+    // axios.post("/api/blogs", data)
+
     toast.success("Blog created successfully!");
     router.push("/dashboard/blog"); // redirect back to blog list
   };
@@ -22,6 +33,14 @@ const NewBlogPage = () => {
         <BlogForm
           onSubmit={handleCreateBlog}
           buttonText="Create Blog"
+          initialData={{
+            title: "",
+            content: "",
+            thumbnail: "",
+            tags: [],
+            category: "",
+            isFeatured: false,
+          }}
         />
       </div>
     </div>
