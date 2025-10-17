@@ -11,7 +11,7 @@ export default function Home() {
             Welcome to My Portfolio
           </h1>
           <p className="text-lg sm:text-xl text-gray-300 mb-8">
-            👋 Hi, I’m <span className="font-semibold text-white">Sarfaraj Nawaz Chowdhury</span> — a passionate{" "}
+           Hi, I’m <span className="font-semibold text-white">Sarfaraj Nawaz Chowdhury</span> — a passionate{" "}
             <span className="text-cyan-400 font-semibold">Full-Stack Developer</span> who loves building
             scalable web applications with clean UI and great UX.
           </p>
