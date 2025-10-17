@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { FaHome, FaInfoCircle, FaBlog, FaEnvelope, FaTachometerAlt } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaBlog, FaEnvelope, FaUser, FaTachometerAlt } from "react-icons/fa";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -29,8 +29,8 @@ const Sidebar = () => {
       <nav className="flex-1 px-4 py-6 space-y-3">
         <SidebarLink href="/" icon={<FaHome />} label="Home" isOpen={isOpen} />
         <SidebarLink href="/about" icon={<FaInfoCircle />} label="About" isOpen={isOpen} />
+        <SidebarLink href="/profile" icon={<FaUser />} label="Profile" isOpen={isOpen} />
         <SidebarLink href="/blog" icon={<FaBlog />} label="Blog" isOpen={isOpen} />
-        {/* <SidebarLink href="/dashboard/blog" icon={<FaBlog />} label="Manage Blogs" isOpen={isOpen} /> */}
         <SidebarLink href="/contact" icon={<FaEnvelope />} label="Contact" isOpen={isOpen} />
         <SidebarLink href="/dashboard" icon={<FaTachometerAlt />} label="Dashboard" isOpen={isOpen} />
       </nav>
