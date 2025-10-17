@@ -1,61 +1,62 @@
-// src/components/BlogForm.tsx
 "use client";
-import dynamic from "next/dynamic";
+
 import { useState } from "react";
-import toast from "react-hot-toast";
-import api from "../lib/api";
+import { toast } from "react-hot-toast";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
+interface BlogFormProps {
+  initialData?: { title: string; description: string };
+  onSubmit: (data: { title: string; description: string }) => void;
+  buttonText: string;
+}
 
-type BlogInitial = {
-  _id?: string;
-  title?: string;
-  summary?: string;
-  content?: string;
-};
+const BlogForm = ({ initialData, onSubmit, buttonText }: BlogFormProps) => {
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [description, setDescription] = useState(initialData?.description || "");
 
-export default function BlogForm({ onSaved, initial }: { onSaved?: () => void; initial?: BlogInitial }) {
-  const [title, setTitle] = useState(initial?.title || "");
-  const [summary, setSummary] = useState(initial?.summary || "");
-  const [content, setContent] = useState(initial?.content || "");
-  const [loading, setLoading] = useState(false);
-
-  const createOrUpdate = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) return toast.error("Title required");
-    if (!content.trim()) return toast.error("Content required");
-    setLoading(true);
-    try {
-      if (initial && initial._id) {
-        await api.put(`/blogs/${initial._id}`, { title, summary, content });
-        toast.success("Blog updated");
-      } else {
-        await api.post("/blogs", { title, summary, content });
-        toast.success("Blog created");
-        setTitle(""); setSummary(""); setContent("");
-      }
-      onSaved?.();
-    } catch (err: unknown) {
-      let msg = "Failed";
-      if (typeof err === "object" && err !== null && "response" in err) {
-        const response = (err as { response?: { data?: { message?: string } } }).response;
-        msg = response?.data?.message || msg;
-      }
-      toast.error(msg);
-    } finally { setLoading(false); }
+
+    if (!title || !description) {
+      toast.error("Please fill out all fields");
+      return;
+    }
+
+    onSubmit({ title, description });
+    toast.success("Blog saved successfully!");
+    setTitle("");
+    setDescription("");
   };
 
   return (
-    <form onSubmit={createOrUpdate} className="space-y-3">
-      <input value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Title" className="w-full p-2 border rounded" />
-      <input value={summary} onChange={(e)=>setSummary(e.target.value)} placeholder="Short summary" className="w-full p-2 border rounded" />
+    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6 space-y-4">
       <div>
-        <ReactQuill value={content} onChange={setContent} />
+        <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 outline-none"
+          placeholder="Enter blog title"
+        />
       </div>
-      <button disabled={loading} type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">
-        {initial ? (loading ? "Updating..." : "Update") : (loading ? "Creating..." : "Create")}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={5}
+          className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400 outline-none"
+          placeholder="Enter blog description"
+        />
+      </div>
+      <button
+        type="submit"
+        className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-medium"
+      >
+        {buttonText}
       </button>
     </form>
   );
-}
+};
+
+export default BlogForm;
