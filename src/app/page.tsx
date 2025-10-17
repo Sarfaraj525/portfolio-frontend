@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import Link from "next/link"; 
 
 export default function Home() {
   return (
@@ -11,24 +12,26 @@ export default function Home() {
             Welcome to My Portfolio
           </h1>
           <p className="text-lg sm:text-xl text-gray-300 mb-8">
-           Hi, I’m <span className="font-semibold text-white">Sarfaraj Nawaz Chowdhury</span> — a passionate{" "}
+            Hi, I’m <span className="font-semibold text-white">Sarfaraj Nawaz Chowdhury</span> — a passionate{" "}
             <span className="text-cyan-400 font-semibold">Full-Stack Developer</span> who loves building
             scalable web applications with clean UI and great UX.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <a
+            
+            <Link
               href="/projects"
               className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-full shadow-md transition transform hover:-translate-y-1"
             >
               View My Projects
-            </a>
-            <a
+            </Link>
+
+            <Link
               href="/blogs"
               className="px-6 py-3 border border-cyan-400 hover:bg-cyan-500 hover:text-white text-cyan-400 font-semibold rounded-full shadow-md transition transform hover:-translate-y-1"
             >
               Read My Blogs
-            </a>
+            </Link>
           </div>
         </div>
       </main>
