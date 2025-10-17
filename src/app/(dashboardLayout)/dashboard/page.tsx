@@ -1,10 +1,13 @@
 "use client";
 
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaBlog, FaProjectDiagram } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const DashboardPage = () => {
+  const router = useRouter();
+
   return (
     <div>
       <Toaster position="top-right" />
@@ -33,7 +36,7 @@ const DashboardPage = () => {
             Create, edit, and delete your blog posts directly from the dashboard.
           </p>
           <button
-            onClick={() => toast.success("Navigating to Blog Management...")}
+            onClick={() => router.push("/blog")}
             className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium"
           >
             Go to Blogs
@@ -55,7 +58,7 @@ const DashboardPage = () => {
             Track and manage your projects, view their current status, and update progress.
           </p>
           <button
-            onClick={() => toast.success("Navigating to Projects...")}
+            onClick={() => router.push("/projects")}
             className="mt-4 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md text-sm font-medium"
           >
             View Projects
