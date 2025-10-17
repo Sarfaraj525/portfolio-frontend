@@ -30,6 +30,7 @@ const Sidebar = () => {
         <SidebarLink href="/" icon={<FaHome />} label="Home" isOpen={isOpen} />
         <SidebarLink href="/about" icon={<FaInfoCircle />} label="About" isOpen={isOpen} />
         <SidebarLink href="/blog" icon={<FaBlog />} label="Blog" isOpen={isOpen} />
+        {/* <SidebarLink href="/dashboard/blog" icon={<FaBlog />} label="Manage Blogs" isOpen={isOpen} /> */}
         <SidebarLink href="/contact" icon={<FaEnvelope />} label="Contact" isOpen={isOpen} />
         <SidebarLink href="/dashboard" icon={<FaTachometerAlt />} label="Dashboard" isOpen={isOpen} />
       </nav>
@@ -42,7 +43,7 @@ const Sidebar = () => {
   );
 };
 
-// ✅ Reusable Link Component
+//  Reusable Link Component
 interface SidebarLinkProps {
   href: string;
   icon: React.ReactNode;
